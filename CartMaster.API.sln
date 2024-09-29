@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartMaster.API", "CartMaster.API\CartMaster.API.csproj", "{6EC4D394-65A2-4CDF-A607-4496D986DAA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartMaster.Data", "CartMaster.Data\CartMaster.Data.csproj", "{7B05FDA3-1793-4AB0-8ED2-86A63EFF9CE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartMaster.Business", "CartMaster.Business\CartMaster.Business.csproj", "{ED03A239-16DB-4AB2-B589-597C98D10210}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartMaster.Static", "CartMaster.Static\CartMaster.Static.csproj", "{292E1EB4-B342-4B0F-B1A5-7C63D18A1D6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartMaster.TokenGeneration", "CartMaster.TokenGeneration\CartMaster.TokenGeneration.csproj", "{3AB30728-18ED-4C58-AE06-4225DAFAEFA7}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CartMaster.Database", "CartMaster.Database\CartMaster.Database.sqlproj", "{FABB008B-7BDF-43A0-9429-508FD7FBC3B1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6EC4D394-65A2-4CDF-A607-4496D986DAA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EC4D394-65A2-4CDF-A607-4496D986DAA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EC4D394-65A2-4CDF-A607-4496D986DAA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EC4D394-65A2-4CDF-A607-4496D986DAA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B05FDA3-1793-4AB0-8ED2-86A63EFF9CE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B05FDA3-1793-4AB0-8ED2-86A63EFF9CE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B05FDA3-1793-4AB0-8ED2-86A63EFF9CE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B05FDA3-1793-4AB0-8ED2-86A63EFF9CE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED03A239-16DB-4AB2-B589-597C98D10210}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED03A239-16DB-4AB2-B589-597C98D10210}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED03A239-16DB-4AB2-B589-597C98D10210}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED03A239-16DB-4AB2-B589-597C98D10210}.Release|Any CPU.Build.0 = Release|Any CPU
+		{292E1EB4-B342-4B0F-B1A5-7C63D18A1D6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{292E1EB4-B342-4B0F-B1A5-7C63D18A1D6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{292E1EB4-B342-4B0F-B1A5-7C63D18A1D6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{292E1EB4-B342-4B0F-B1A5-7C63D18A1D6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AB30728-18ED-4C58-AE06-4225DAFAEFA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AB30728-18ED-4C58-AE06-4225DAFAEFA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AB30728-18ED-4C58-AE06-4225DAFAEFA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AB30728-18ED-4C58-AE06-4225DAFAEFA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FABB008B-7BDF-43A0-9429-508FD7FBC3B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FABB008B-7BDF-43A0-9429-508FD7FBC3B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FABB008B-7BDF-43A0-9429-508FD7FBC3B1}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{FABB008B-7BDF-43A0-9429-508FD7FBC3B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FABB008B-7BDF-43A0-9429-508FD7FBC3B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FABB008B-7BDF-43A0-9429-508FD7FBC3B1}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0779D094-9B07-4C2D-BA58-D798852C3D40}
+	EndGlobalSection
+EndGlobal
