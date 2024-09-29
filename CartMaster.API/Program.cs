@@ -56,13 +56,44 @@ builder.Services.AddSwaggerGen(options =>
         {
             Title = "CartMaster",
             Version = "v1",
-            Description = "This is the API for Cart Master E-Commerce Website."
+            Description = @"This is the API documentation for the Cart Master E-Commerce Website.
+
+    Cart Master provides two types of users: Customers and Admins. 
+
+Customer Features:
+- Registration & Login: Users can register a new account, log in using their credentials, and securely manage their session.
+- Product Browsing & Search: Customers can view a catalog of products, with options to search for products by name or description.
+- Product Filters: Users can apply filters by category, price range, or sorting (A-Z, Z-A, low-high price, high-low price).
+- Cart Management: Customers can add products to their cart, view items in their cart, update quantities, or remove items.
+- Checkout & Payment: Users can proceed to checkout by providing their delivery address and selecting a payment method (Card, UPI, or Cash on Delivery).
+- Order Management: Customers can view a list of their past and ongoing orders, track the status of specific orders, and download invoices.
+- Order Cancellation & Returns: Users can cancel an order if it has not yet shipped or request a return for delivered products.
+- Profile Management: Customers can view and update their profile information, including shipping addresses and contact details.
+- Wishlist: Customers can add items to their wishlist for later reference or remove them as needed.
+- Logout: Securely log out from their session.
+
+Admin Features:
+- Product Management: Admins can add new products, update existing product details (name, description, price, stock), and remove products from the inventory.
+- Category Management: Admins can manage product categories by adding, editing, viewing, or deleting categories.
+- User Management: Admins can view a list of registered users and their order history, including user-specific order details.
+- Order Management: Admins can update the status of user orders (e.g., pending, shipped, delivered) and handle return requests submitted by customers.
+- Dashboard & Analytics: Admins have access to a comprehensive dashboard that displays key insights such as:
+    - Product & Category Metrics: View total product count, categories, low-stock products, out-of-stock items.
+    - User Metrics: Monitor total registered users, monthly user growth, and a list of inactive users.
+    - Order & Sales Insights: Access sales data by month, track total revenue, and view canceled or returned orders.
+    - Review & Wishlist Insights: View top-reviewed products and wishlist trends to gain insights into customer preferences.
+    - Repeat Customers & Revenue: Track repeat customers and view revenue generated from them.
+- Data Export: Admins can export various data sets (e.g., products, orders, users) to Excel for reporting and analysis purposes.
+
+        This API is designed to support all functionalities of Cart Master, enabling seamless management of the e-commerce platform for both customers and administrators."
         });
+
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     options.IncludeXmlComments(xmlPath);
     options.EnableAnnotations();
 });
+
 
 var configuration = new ConfigurationBuilder()
                         .AddJsonFile("appsettings.json")
