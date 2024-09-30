@@ -17,6 +17,7 @@ namespace CartMaster.Data.Models
         public int OutOfStockProducts { get; set; }
         public int RepeatCustomersCount { get; set; }
         public int CancelledOrders {  get; set; }
+        public int Coupons {  get; set; }
     }
 
     public class WishlistInsight

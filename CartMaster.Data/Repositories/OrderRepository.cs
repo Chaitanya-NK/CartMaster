@@ -115,6 +115,8 @@ namespace CartMaster.Data.Repositories
                                 OrderDate = (DateTime)sqlDataReader["OrderDate"],
                                 Status = sqlDataReader["Status"].ToString(),
                                 TotalAmount = (decimal)sqlDataReader["TotalAmount"],
+                                DiscountAmount = sqlDataReader["DiscountAmount"] != DBNull.Value ? (decimal)sqlDataReader["DiscountAmount"] : default,
+                                FinalAmount = sqlDataReader["FinalAmount"] != DBNull.Value ? (decimal)sqlDataReader["FinalAmount"] : default,
                                 OrderItems = new List<OrderItemModel>()
                             };
                         }
@@ -171,6 +173,8 @@ namespace CartMaster.Data.Repositories
                                     OrderDate = sqlDataReader["OrderDate"] != DBNull.Value ? (DateTime)sqlDataReader["OrderDate"] : default,
                                     Status = sqlDataReader["Status"] != DBNull.Value ? sqlDataReader["Status"].ToString() : string.Empty,
                                     TotalAmount = sqlDataReader["TotalAmount"] != DBNull.Value ? (decimal)sqlDataReader["TotalAmount"] : default,
+                                    DiscountAmount = sqlDataReader["DiscountAmount"] != DBNull.Value ? (decimal)sqlDataReader["DiscountAmount"] : default,
+                                    FinalAmount = sqlDataReader["FinalAmount"] != DBNull.Value ? (decimal)sqlDataReader["FinalAmount"] : default,
                                     OrderItems = new List<OrderItemModel>()
                                 };
                                 ordersDict.Add(orderId, order);
@@ -210,5 +214,30 @@ namespace CartMaster.Data.Repositories
             return orders;
         }
         
+        public async Task<string> ApplyCouponToOrderAsync(int orderId, string couponName, int userId)
+        {
+            using(var connection = _connection)
+            {
+                using(SqlCommand sqlCommand = new SqlCommand("ApplyCouponToOrder", connection))
+                {
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                    sqlCommand.Parameters.AddWithValue("@OrderID", orderId);
+                    sqlCommand.Parameters.AddWithValue("@CouponName", couponName);
+                    sqlCommand.Parameters.AddWithValue("@UserID", userId);
+
+                    await connection.OpenAsync();
+                    int rowsAffected = await sqlCommand.ExecuteNonQueryAsync();
+                    if(rowsAffected > 0)
+                    {
+                        return "Coupon Applied";
+                    }
+                    else
+                    {
+                        return "Failed To Apply Coupon";
+                    }
+                }
+            }
+        }
     }
 }

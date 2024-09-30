@@ -45,5 +45,10 @@ namespace CartMaster.Business.Services
         {
             return _orderRepository.ProcessReturnByOrderItemId(orderItemId, retrunStatus);
         }
+
+        public async Task<string> ApplyCouponToOrderAsync(int orderId, string couponName, int userId)
+        {
+            return await _orderRepository.ApplyCouponToOrderAsync(orderId, couponName, userId);
+        }
     }
 }

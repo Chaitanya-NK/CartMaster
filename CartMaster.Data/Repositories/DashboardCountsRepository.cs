@@ -49,7 +49,8 @@ namespace CartMaster.Data.Repositories
                                 PendingReturns = sqlDataReader.GetInt32(5),
                                 OutOfStockProducts = sqlDataReader.GetInt32(6),
                                 RepeatCustomersCount = sqlDataReader.GetInt32(7),
-                                CancelledOrders = sqlDataReader.GetInt32(8)
+                                CancelledOrders = sqlDataReader.GetInt32(8),
+                                Coupons = sqlDataReader.GetInt32(9),
                             };
                         }
 

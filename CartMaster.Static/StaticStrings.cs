@@ -80,4 +80,10 @@
         public const string RemoveWishlsitSuccess = "Product Removed From Wishlist Successfully";
         public const string OperationSuccess = "Action Successful";
     }
+
+    public class StaticCoupon
+    {
+        public const string AddCouponSuccess = "Coupon Added Successfully";
+        public const string UpdateCouponSuccess = "Coupon Updated Successfully";
+    }
 }

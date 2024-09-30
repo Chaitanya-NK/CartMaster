@@ -1,14 +1,9 @@
 ﻿using CartMaster.Business.IServices;
 using CartMaster.Data.Models;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
+#pragma warning disable 8604
 
 namespace CartMaster.Business.Services
 {
@@ -26,7 +21,8 @@ namespace CartMaster.Business.Services
                 var smtpClient = new SmtpClient(_smtpSettings.Host, _smtpSettings.Port)
                 {
                     Credentials = new NetworkCredential(_smtpSettings.Username, _smtpSettings.Password),
-                    EnableSsl = true
+                    EnableSsl = true,
+                    Timeout = 30000
                 };
 
                 var mailMessage = new MailMessage

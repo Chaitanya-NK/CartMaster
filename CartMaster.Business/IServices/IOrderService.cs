@@ -11,5 +11,6 @@ namespace CartMaster.Business.IServices
         public string CancelOrder(int orderId);
         public string RequestReturnByOrderItemId(int orderItemId);
         public string ProcessReturnByOrderItemId(int orderItemId, string returnStatus);
+        Task<string> ApplyCouponToOrderAsync(int orderId, string couponName, int userId);
     }
 }

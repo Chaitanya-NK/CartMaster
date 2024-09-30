@@ -69,6 +69,25 @@ namespace CartMaster.API.Controllers
             }
         }
 
+        [HttpPost("ApplyCoupon")]
+        public async Task<IActionResult> ApplyCoupon([FromBody] ApplyCouponModel applyCouponModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await _orderService.ApplyCouponToOrderAsync(applyCouponModel.OrderID, applyCouponModel.CouponName, applyCouponModel.UserID);
+
+            if (result == "Coupon Applied")
+            {
+                return Ok(new { success = true, message = result });
+            }
+            else
+            {
+                return BadRequest(new { success = false, message = result });
+            }
+        }
+
         [HttpGet("GetOrderInvoice/{orderId}")]
         public IActionResult GetOrderInvoice(int orderId)
         {

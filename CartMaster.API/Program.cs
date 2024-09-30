@@ -45,6 +45,8 @@ builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Smtp"
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddTransient<IDashboardCountsRepository, DashboardCountsRepository>();
 builder.Services.AddTransient<IDashboardCountsService, DashboardCountsService>();
+builder.Services.AddTransient<ICouponRepository, CouponRepository>();
+builder.Services.AddTransient<ICouponService, CouponService>();
 builder.Services.AddTransient<IToken, Token>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

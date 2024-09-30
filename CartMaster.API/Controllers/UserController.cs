@@ -35,7 +35,7 @@ namespace CartMaster.API.Controllers
             {
                 var getToken = Request.Headers["Authorization"].ToString();
                 var token = _token.ReadToken(getToken);
-                /*if (token.RoleName == "ADMIN")
+                if (token.RoleName == "ADMIN")
                 {
                     var tokenn = Request.Headers["Authorization"];
                     var tokenModel = _token.ReadToken(tokenn);
@@ -44,19 +44,19 @@ namespace CartMaster.API.Controllers
                         return StatusCode(StatusCodes.Status401Unauthorized);
                     }
                     else
-                    {*/
+                    {
                         var users = _userService.GetAllUsers();
                         if (users == null)
                         {
                             return NotFound("Users Not Found");
                         }
                         return Ok(users);
-                /*    }
+            }
                 }
                 else
                 {
                     return StatusCode(StatusCodes.Status401Unauthorized);
-                }*/
+                }
             }
             catch(Exception ex)
             {
