@@ -47,6 +47,7 @@
         public const string DeleteProductSuccess = "Product Deleted Successfully";
         public const string UpdateProductSuccess = "Product Updated Successfully";
         public const string OperationSuccess = "Action Successful";
+        public const string ProductNotPurchased = "The Proudct is not purchased by the user";
     }
 
     public class StaticCart
@@ -55,6 +56,11 @@
         public const string AddProductToCartSuccess = "Product Added to Cart Successfully";
         public const string RemoveProductFromCartSuccess = "Product Removed from the Cart Successfully";
         public const string UpdateCartItemQuantitySuccess = "Cart Item Quantity Updated Successfully";
+    }
+
+    public class StaticPayment
+    {
+        public const string CreatePaymentaSuccess = "Payment Created Successfully";
     }
 
     public class StaticOrder

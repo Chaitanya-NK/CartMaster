@@ -26,7 +26,7 @@ namespace CartMaster.Data.Repositories
         // reusable method to execute non-query commands ---- this can be used for add, update, and delete.
         private string ExecuteNonQuery(string storedProcedure, Dictionary<string, object> parameters)
         {
-            using (var connection = _connection)
+            using (var connection = new SqlConnection(_configuration.GetConnectionString(StaticStrings.DBString)))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(storedProcedure, connection))
                 {
@@ -64,8 +64,6 @@ namespace CartMaster.Data.Repositories
             var parameters = new Dictionary<string, object>
             {
                 { "@ReviewID", productReviewModel.ReviewID },
-                { "@ProductID", productReviewModel.ProductID },
-                { "@UserID", productReviewModel.UserID },
                 { "@Rating", productReviewModel.Rating },
                 { "@Comment", productReviewModel.Comment }
             };
@@ -184,6 +182,33 @@ namespace CartMaster.Data.Repositories
                 }
             }
             return averageRatingModel;
+        }
+
+        public bool HasUserPurchasedProduct(int productId, int userId)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                { "@ProductID", productId },
+                { "@UserID", userId }
+            };
+
+            using (var connection = _connection)
+            {
+                using (SqlCommand sqlCommand = new SqlCommand("CheckUserPurchase", connection))
+                {
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    foreach (var parameter in parameters)
+                    {
+                        sqlCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
+                    }
+
+                    connection.Open();
+                    var result = (int)sqlCommand.ExecuteScalar();
+                    connection.Close();
+
+                    return result > 0;
+                }
+            }
         }
     }
 }

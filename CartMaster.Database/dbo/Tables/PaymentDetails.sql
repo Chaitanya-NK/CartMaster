@@ -1,0 +1,13 @@
+﻿CREATE TABLE PaymentDetails (
+    PaymentID INT PRIMARY KEY IDENTITY(1,1),
+    OrderID INT NOT NULL,
+    PaymentMethod NVARCHAR(50) NOT NULL,
+    CardName NVARCHAR(100) NULL,
+    CardNumber NVARCHAR(16) NULL,
+    ExpiryDate NVARCHAR(7) NULL,
+    CVV NVARCHAR(3) NULL,
+    UpiId NVARCHAR(100) NULL,
+    PaymentDate DATETIME NOT NULL DEFAULT GETDATE(),
+    PaymentStatus NVARCHAR(50) NOT NULL,
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
+);

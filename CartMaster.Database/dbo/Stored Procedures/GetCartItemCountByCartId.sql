@@ -1,0 +1,6 @@
+﻿CREATE PROCEDURE GetCartItemCountByCartId
+	@CartID INT
+AS
+BEGIN
+	SELECT COALESCE(SUM(Quantity),0) FROM CartItems WHERE CartID = @CartID
+END

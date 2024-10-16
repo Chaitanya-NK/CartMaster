@@ -3,14 +3,7 @@ using CartMaster.Data.Models;
 using CartMaster.Static;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace CartMaster.Data.Repositories
 {
@@ -33,7 +26,7 @@ namespace CartMaster.Data.Repositories
                 using (SqlCommand sqlCommand = new SqlCommand("GetDashboardData", connection))
                 {
                     sqlCommand.CommandType = CommandType.StoredProcedure;
-                    connection.Open();
+                    await connection.OpenAsync();
 
                     using (SqlDataReader sqlDataReader = sqlCommand.ExecuteReader())
                     {
@@ -51,6 +44,8 @@ namespace CartMaster.Data.Repositories
                                 RepeatCustomersCount = sqlDataReader.GetInt32(7),
                                 CancelledOrders = sqlDataReader.GetInt32(8),
                                 Coupons = sqlDataReader.GetInt32(9),
+                                CurrentLogins = sqlDataReader.GetInt32(10),
+                                TotalCategories = sqlDataReader.GetInt32(11),
                             };
                         }
 

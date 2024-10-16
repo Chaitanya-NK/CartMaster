@@ -1,6 +1,7 @@
 ﻿using CartMaster.Data.IRepositories;
 using CartMaster.Data.Models;
 using CartMaster.Static;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
@@ -11,11 +12,13 @@ namespace CartMaster.Data.Repositories
     {
         private readonly IConfiguration _configuration;
         private readonly SqlConnection _connection;
-        public ProductRepository(IConfiguration configuration)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public ProductRepository(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration;
             string? connectionString = _configuration.GetConnectionString(StaticStrings.DBString);
             _connection = new SqlConnection(connectionString);
+            _httpContextAccessor = httpContextAccessor;
         }
 
         // reusable method to execute non-query commands ----- this can be used for add, update, and delete.
@@ -40,8 +43,20 @@ namespace CartMaster.Data.Repositories
             return StaticProduct.OperationSuccess;
         }
 
-        public string AddProduct(ProductModel productModel)
+        public string AddProduct(ProductModel productModel, IFormFile imageURL)
         {
+            if(imageURL != null && imageURL.Length > 0)
+            {
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(imageURL.FileName);
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/ProductImages", fileName);
+
+                using(var stream = new FileStream(imagePath, FileMode.Create))
+                {
+                    imageURL.CopyTo(stream);
+                }
+                productModel.ImageURL = fileName;
+            }
+
             var parameters = new Dictionary<string, object>
             {
                 { "@ProductName", productModel.ProductName },
@@ -55,8 +70,20 @@ namespace CartMaster.Data.Repositories
             return ExecuteNonQuery("AddProduct", parameters);
         }
 
-        public string UpdateProduct(ProductModel productModel)
+        public string UpdateProduct(ProductModel productModel, IFormFile imageURL)
         {
+            if (imageURL != null && imageURL.Length > 0)
+            {
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(imageURL.FileName);
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/ProductImages", fileName);
+
+                using (var stream = new FileStream(imagePath, FileMode.Create))
+                {
+                    imageURL.CopyTo(stream);
+                }
+                productModel.ImageURL = fileName;
+            }
+
             var parameters = new Dictionary<string, object>
             {
                 { "@ProductID", productModel.ProductID },
@@ -113,7 +140,7 @@ namespace CartMaster.Data.Repositories
                                 ProductDescription = sqlDataReader["ProductDescription"].ToString(),
                                 Price = Convert.ToInt32(sqlDataReader["Price"]),
                                 StockQuantity = Convert.ToInt32(sqlDataReader["StockQuantity"]),
-                                ImageURL = sqlDataReader["ImageURL"].ToString(),
+                                ImageURL = $"https://{_httpContextAccessor.HttpContext.Request.Host}/images/ProductImages/{sqlDataReader["ImageURL"].ToString()}",
                                 CategoryID = Convert.ToInt32(sqlDataReader["CategoryID"]),
                                 CreatedAt = sqlDataReader["CreatedAt"] != DBNull.Value ? Convert.ToDateTime(sqlDataReader["CreatedAt"]) : Convert.ToDateTime(null),
                                 ModifiedAt = sqlDataReader["ModifiedAt"] != DBNull.Value ? Convert.ToDateTime(sqlDataReader["ModifiedAt"]) : Convert.ToDateTime(null)

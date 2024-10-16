@@ -9,6 +9,7 @@
         public decimal TotalAmount { get; set; }
         public decimal DiscountAmount { get; set; }
         public decimal FinalAmount { get; set; }
+        public int CouponID { get; set; }
         public List<OrderItemModel> OrderItems { get; set; }
     }
 }

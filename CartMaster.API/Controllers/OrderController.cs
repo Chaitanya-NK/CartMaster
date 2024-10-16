@@ -25,7 +25,7 @@ namespace CartMaster.API.Controllers
         }
 
         [HttpPost("HandleOrder")]
-        public IActionResult HandleOrder([FromQuery] string action, int orderId = 0, int userId = 0, decimal totalAmount = 0, string status = null, int orderItemId = 0, string returnStatus = null)
+        public IActionResult HandleOrder([FromQuery] string action, int orderId = 0, int userId = 0, decimal totalAmount = 0, string status = null, int orderItemId = 0, string returnStatus = null, int couponId = 0)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace CartMaster.API.Controllers
                         return Ok(userOrders);
 
                     case "add":
-                        var createdOrder = _orderService.CreateOrder(userId, totalAmount);
+                        var createdOrder = _orderService.CreateOrder(userId, totalAmount, couponId);
                         return Ok(new { success = true, message = StaticProduct.AddProductSuccess });
 
                     case "updateorderstatus":
@@ -66,25 +66,6 @@ namespace CartMaster.API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-        }
-
-        [HttpPost("ApplyCoupon")]
-        public async Task<IActionResult> ApplyCoupon([FromBody] ApplyCouponModel applyCouponModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var result = await _orderService.ApplyCouponToOrderAsync(applyCouponModel.OrderID, applyCouponModel.CouponName, applyCouponModel.UserID);
-
-            if (result == "Coupon Applied")
-            {
-                return Ok(new { success = true, message = result });
-            }
-            else
-            {
-                return BadRequest(new { success = false, message = result });
             }
         }
 

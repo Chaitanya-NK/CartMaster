@@ -1,0 +1,7 @@
+﻿CREATE TABLE Cart (
+    CartID INT IDENTITY(1,1) PRIMARY KEY,
+    UserID INT,
+	CreatedAt DATETIME,
+	ModifiedAt DATETIME,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+);

@@ -22,7 +22,7 @@ namespace CartMaster.API.Controllers
         }
 
         [HttpPost("HandleProductReviews")]
-        public IActionResult HandleProductReviews([FromQuery] string action, [FromBody] ProductReviewModel productReviewModel = null, int reviewId = 0, int productId = 0)
+        public IActionResult HandleProductReviews([FromQuery] string action, [FromBody] ProductReviewModel productReviewModel = null, int reviewId = 0, int productId = 0, int userId = 0)
         {
             try
             {
@@ -34,8 +34,12 @@ namespace CartMaster.API.Controllers
 
                     case "add":
                         if (productReviewModel == null) return BadRequest("Product Review data is required.");
-                        var addedProductReview = _productReviewService.AddProductReview(productReviewModel);
-                        return Ok(new { success = true, message = StaticProduct.AddProductSuccess });
+                        var addReviewResponse = _productReviewService.AddProductReview(productReviewModel);
+                        if(addReviewResponse == StaticProduct.ProductNotPurchased)
+                        {
+                            return BadRequest("You need to purchase the product to leave review");
+                        }
+                        return Ok(new { success = true, message = StaticProductReview.AddProductReviewSuccess });
 
                     case "update":
                         if (productReviewModel == null) return BadRequest("Product Review data is required.");
@@ -45,6 +49,10 @@ namespace CartMaster.API.Controllers
                     case "delete":
                         var deletedProductReview = _productReviewService.DeleteProductReview(reviewId);
                         return Ok(new { success = true, message = StaticProduct.DeleteProductSuccess });
+
+                    case "check":
+                        var hasPurchased = _productReviewService.HasUserPurchasedProduct(productId, userId);
+                        return Ok(hasPurchased);
 
                     default:
                         return BadRequest("Invalid action specified.");

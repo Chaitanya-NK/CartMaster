@@ -262,5 +262,81 @@ namespace CartMaster.Data.Repositories
                 }
             }
         }
+
+        public int? GetUserIdByEmail(string email)
+        {
+            using(var connection = _connection)
+            {
+                using(SqlCommand sqlCommand = new SqlCommand("GetUserIdByEmail", connection))
+                {
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@Email", email);
+                    connection.Open();
+
+                    var userIdObj = sqlCommand.ExecuteScalar();
+                    connection.Close();
+                    return userIdObj == null ? (int?)null : Convert.ToInt32(userIdObj);
+                }
+            }
+        }
+
+        public void InsertPasswordResetToken(int userId, string token, DateTime expiryDate)
+        {
+            using (var connection = new SqlConnection(_configuration.GetConnectionString(StaticStrings.DBString)))
+            {
+                using (SqlCommand sqlCommand = new SqlCommand("InsertResetToken", connection))
+                {
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    
+                    sqlCommand.Parameters.AddWithValue("@UserID", userId);
+                    sqlCommand.Parameters.AddWithValue("@Token", token);
+                    sqlCommand.Parameters.AddWithValue("@ExpiryDate", expiryDate);
+                    connection.Open();
+                    sqlCommand.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+        }
+
+        public (int userId, DateTime expiryDate)? ValidatePasswordResetToken(string token)
+        {
+            using (var connection = new SqlConnection(_configuration.GetConnectionString(StaticStrings.DBString)))
+            {
+                using (SqlCommand sqlCommand = new SqlCommand("ValidatePasswordResetToken", connection))
+                {
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    
+                    sqlCommand.Parameters.AddWithValue("@Token", token);
+                    connection.Open();
+                    using (SqlDataReader sqlDataReader = sqlCommand.ExecuteReader())
+                    {
+                        if (sqlDataReader.Read())
+                        {
+                            int userId = sqlDataReader.GetInt32(0);
+                            DateTime expiryDate = sqlDataReader.GetDateTime(1);
+                            return (userId, expiryDate);
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        public void UpdatePassword(int userId, string newPassword)
+        {
+            using (var connection = new SqlConnection(_configuration.GetConnectionString(StaticStrings.DBString)))
+            {
+                using (SqlCommand sqlCommand = new SqlCommand("UpdateUserPassword", connection))
+                {
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    
+
+                    sqlCommand.Parameters.AddWithValue("@UserID", userId);
+                    sqlCommand.Parameters.AddWithValue("@NewPassword", newPassword);
+                    connection.Open();
+                    sqlCommand.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CartMaster.Data.Models
+﻿namespace CartMaster.Data.Models
 {
     public class DashboardCountsModel
     {
@@ -18,6 +12,8 @@ namespace CartMaster.Data.Models
         public int RepeatCustomersCount { get; set; }
         public int CancelledOrders {  get; set; }
         public int Coupons {  get; set; }
+        public int CurrentLogins {  get; set; }
+        public int TotalCategories { get; set; }
     }
 
     public class WishlistInsight

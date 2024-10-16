@@ -15,10 +15,12 @@ namespace CartMaster.Business.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IToken _token;
-        public UserService(IUserRepository userRepository, IToken token)
+        private readonly IEmailService _emailService;
+        public UserService(IUserRepository userRepository, IToken token, IEmailService emailService)
         {
             _userRepository = userRepository;
             _token = token;
+            _emailService = emailService;
         }
         public List<UserModel> GetAllUsers()
         {
@@ -68,6 +70,40 @@ namespace CartMaster.Business.Services
         public async Task<(int, string)> RegisterUser(UserModel userModel)
         {
             return await _userRepository.RegisterUser(userModel);
+        }
+
+        public async Task RequestPasswordReset(string email)
+        {
+            int? userId = _userRepository.GetUserIdByEmail(email);
+            if(userId == null)
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+
+            string token = Guid.NewGuid().ToString();
+            DateTime expiryDate = DateTime.Now.AddHours(1);
+
+            InsertPasswordResetToken(userId.Value, token, expiryDate);
+
+            await _emailService.SendPasswordResetEmailAsync(email, token);
+        }
+
+        public void InsertPasswordResetToken(int userId, string token, DateTime expiryDate)
+        {
+            _userRepository.InsertPasswordResetToken(userId, token, expiryDate);
+        }
+
+        public async Task<bool> ResetPassword(string token, string newPassword)
+        {
+            var tokenInfo = _userRepository.ValidatePasswordResetToken(token);
+
+            if(tokenInfo == null || tokenInfo.Value.expiryDate < DateTime.Now)
+            {
+                return false;
+            }
+
+            _userRepository.UpdatePassword(tokenInfo.Value.userId, newPassword);
+            return true;
         }
 
         public string SaveUserAddress(int userId, string address)

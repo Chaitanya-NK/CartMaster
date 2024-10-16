@@ -11,5 +11,8 @@ namespace CartMaster.Business.IServices
         public string UpdateUser(UserModel userModel);
         public string SaveUserAddress(int userId, string address);
         public string GetUserAddressByUserId(int userId);
+        Task RequestPasswordReset(string email);
+        Task<bool> ResetPassword(string token, string newPassword);
+        public void InsertPasswordResetToken(int userId, string token, DateTime expiryDate);
     }
 }

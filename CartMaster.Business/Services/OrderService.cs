@@ -11,9 +11,9 @@ namespace CartMaster.Business.Services
         {
             _orderRepository = orderRepository;
         }
-        public string CreateOrder(int userId, decimal totalAmount)
+        public string CreateOrder(int userId, decimal totalAmount, int? couponId = null)
         {
-            return _orderRepository.CreateOrder(userId, totalAmount);
+            return _orderRepository.CreateOrder(userId, totalAmount, couponId);
         }
 
         public OrderModel GetOrderDetailsByOrderId(int orderId)
@@ -44,11 +44,6 @@ namespace CartMaster.Business.Services
         public string ProcessReturnByOrderItemId(int orderItemId, string retrunStatus)
         {
             return _orderRepository.ProcessReturnByOrderItemId(orderItemId, retrunStatus);
-        }
-
-        public async Task<string> ApplyCouponToOrderAsync(int orderId, string couponName, int userId)
-        {
-            return await _orderRepository.ApplyCouponToOrderAsync(orderId, couponName, userId);
         }
     }
 }

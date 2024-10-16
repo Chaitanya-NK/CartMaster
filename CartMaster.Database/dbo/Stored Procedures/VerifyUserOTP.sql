@@ -1,0 +1,13 @@
+﻿CREATE PROCEDURE VerifyUserOTP
+	@UserID INT,
+	@OTPCode VARCHAR(6)
+AS
+BEGIN
+	SELECT CASE
+		WHEN ExpirationTime < GETDATE() THEN 0
+		WHEN OTPCode = @OTPCode THEN 1
+		ELSE 0
+	END AS IsValid
+	FROM UserOTP
+	WHERE UserID = @UserID
+END

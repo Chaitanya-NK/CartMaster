@@ -1,6 +1,7 @@
 ﻿using CartMaster.Business.IServices;
 using CartMaster.Data.IRepositories;
 using CartMaster.Data.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,9 @@ namespace CartMaster.Business.Services
         {
             _categoryRepository = categoryRepository;
         }
-        public string AddCategory(CategoryModel categoryModel)
+        public string AddCategory(CategoryModel categoryModel, IFormFile imageURL)
         {
-            return _categoryRepository.AddCategory(categoryModel);
+            return _categoryRepository.AddCategory(categoryModel, imageURL);
         }
 
         public string DeleteCategory(int categoryId)
@@ -36,9 +37,9 @@ namespace CartMaster.Business.Services
             return _categoryRepository.GetCategoryById(categoryId);
         }
 
-        public string UpdateCategory(CategoryModel categoryModel)
+        public string UpdateCategory(CategoryModel categoryModel, IFormFile imageURL)
         {
-            return _categoryRepository.UpdateCategory(categoryModel);
+            return _categoryRepository.UpdateCategory(categoryModel, imageURL);
         }
     }
 }

@@ -1,0 +1,6 @@
+﻿CREATE TABLE PasswordResetTokens (
+    TokenID INT PRIMARY KEY IDENTITY(1,1),
+    UserID INT FOREIGN KEY REFERENCES Users(UserID),
+    Token NVARCHAR(100),
+    ExpiryDate DATETIME
+);

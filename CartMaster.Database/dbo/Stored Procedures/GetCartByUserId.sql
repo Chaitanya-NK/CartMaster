@@ -1,0 +1,12 @@
+﻿CREATE PROCEDURE GetCartByUserId
+	@UserID INT
+AS
+BEGIN
+	SELECT *
+	FROM CartItems
+	WHERE CartID = (
+		SELECT CartID
+		FROM Cart
+		WHERE UserID = @UserID
+	)
+END

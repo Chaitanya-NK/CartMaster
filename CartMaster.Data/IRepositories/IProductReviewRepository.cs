@@ -15,5 +15,6 @@ namespace CartMaster.Data.IRepositories
         public List<ProductReviewModel> GetProductReviews(int productId);
         public decimal GetAverageRatingOfProduct(int productId);
         public AverageRatingModel GetAverageRatingOfAllProducts();
+        public bool HasUserPurchasedProduct(int productId, int userId);
     }
 }

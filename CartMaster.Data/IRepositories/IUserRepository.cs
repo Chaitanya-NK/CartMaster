@@ -17,5 +17,9 @@ namespace CartMaster.Data.IRepositories
         public string GetToken(string username);
         public string SaveUserAddress(int userId, string address);
         public string GetUserAddressByUserId(int userId);
+        int? GetUserIdByEmail(string email);
+        void InsertPasswordResetToken(int userId, string token, DateTime expiryDate);
+        (int userId, DateTime expiryDate)? ValidatePasswordResetToken(string token);
+        void UpdatePassword(int userId, string newPassword);
     }
 }

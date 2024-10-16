@@ -1,3 +1,4 @@
+using CartMaster.API;
 using CartMaster.Business.IServices;
 using CartMaster.Business.Services;
 using CartMaster.Data.IRepositories;
@@ -22,6 +23,7 @@ builder.Services.AddCors(options =>
 
 // Add services to the container.
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
@@ -47,6 +49,10 @@ builder.Services.AddTransient<IDashboardCountsRepository, DashboardCountsReposit
 builder.Services.AddTransient<IDashboardCountsService, DashboardCountsService>();
 builder.Services.AddTransient<ICouponRepository, CouponRepository>();
 builder.Services.AddTransient<ICouponService, CouponService>();
+builder.Services.AddTransient<IUserSessionRepository, UserSessionRepository>();
+builder.Services.AddTransient<IUserSessionService, UserSessionService>();
+builder.Services.AddTransient<IPaymentRepository, PaymentRepository>();
+builder.Services.AddTransient<IPaymentService, PaymentService>();
 builder.Services.AddTransient<IToken, Token>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -94,6 +100,7 @@ Admin Features:
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     options.IncludeXmlComments(xmlPath);
     options.EnableAnnotations();
+    options.OperationFilter<SwaggerFileOperationFilter>();
 });
 
 

@@ -1,0 +1,8 @@
+﻿CREATE PROCEDURE GetUserIdByEmail
+	@Email NVARCHAR(100)
+AS
+BEGIN
+	SELECT UserID
+	FROM Users
+	WHERE Email = @Email
+END

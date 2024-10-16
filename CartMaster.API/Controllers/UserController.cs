@@ -5,6 +5,7 @@ using CartMaster.TokenGeneration.TokenInterface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 #pragma warning disable 1591
 #pragma warning disable 1591
 
@@ -112,7 +113,7 @@ namespace CartMaster.API.Controllers
                 else
                 {
                     var result = _userService.UpdateUser(userModel);
-                    return Ok(result);
+                    return Ok(new { success = true, message = result });
                 }
             }
             catch(Exception ex)
@@ -180,6 +181,8 @@ namespace CartMaster.API.Controllers
         {
             try
             {
+                var captchaVerificationResult = VerifyCaptcha(userDto.CaptchaToken);
+                if (!captchaVerificationResult) return BadRequest(new { message = "Invalid Captcha Token" });
                 string data = _userService.LoginUser(userDto);
                 if(data == StaticLogin.InvalidUser)
                 {
@@ -229,6 +232,42 @@ namespace CartMaster.API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
+        }
+
+        [HttpPost("request-password-reset")]
+        public async Task<IActionResult> RequestPasswordReset(string email)
+        {
+            try
+            {
+                await _userService.RequestPasswordReset(email);
+                return Ok(new { success = true, message = "Password reset email sent" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(string token, string newPassword)
+        {
+            bool result = await _userService.ResetPassword(token, newPassword);
+            if (!result)
+            {
+                return BadRequest("Invalid or expired token");
+            }
+            return Ok(result);
+        }
+
+        private bool VerifyCaptcha(string captchaToken)
+        {
+            var secretKey = "6LeCklUqAAAAAFbYrJGXZz9tsPBapG5D6xaM4yDh";
+            var client = new HttpClient();
+            var response = client.PostAsync($"https://www.google.com/recaptcha/api/siteverify?secret={secretKey}&response={captchaToken}", null).Result;
+            var result = response.Content.ReadAsStringAsync().Result;
+            dynamic captchaResult = JsonConvert.DeserializeObject(result);
+
+            return captchaResult.success == "true";
         }
     }
 }

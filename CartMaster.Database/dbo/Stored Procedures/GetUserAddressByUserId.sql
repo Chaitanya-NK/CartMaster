@@ -1,0 +1,8 @@
+﻿CREATE PROCEDURE GetUserAddressByUserId
+	@UserID INT
+AS
+BEGIN
+	SELECT Address
+	FROM Users
+	WHERE UserID = @UserID
+END

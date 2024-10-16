@@ -1,6 +1,7 @@
 ﻿using CartMaster.Data.IRepositories;
 using CartMaster.Data.Models;
 using CartMaster.Static;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
@@ -11,11 +12,13 @@ namespace CartMaster.Data.Repositories
     {
         private readonly IConfiguration _configuration;
         private readonly SqlConnection _connection;
-        public OrderRepository(IConfiguration configuration)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public OrderRepository(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration;
             string? connectionString = _configuration.GetConnectionString(StaticStrings.DBString);
             _connection = new SqlConnection(connectionString);
+            _httpContextAccessor = httpContextAccessor;
         }
 
         // reusable method to execute non-query commands ---- this can be used for add, update, and delete.
@@ -40,13 +43,18 @@ namespace CartMaster.Data.Repositories
             return StaticProduct.OperationSuccess;
         }
 
-        public string CreateOrder(int userId, decimal totalAmount)
+        public string CreateOrder(int userId, decimal totalAmount, int? couponId = null)
         {
             var parameters = new Dictionary<string, object>
             {
                 { "@UserID", userId },
                 { "@TotalAmount", totalAmount }
             };
+
+            if (couponId.HasValue)
+            {
+                parameters.Add("@CouponID", couponId.Value);
+            }
 
             return ExecuteNonQuery("CreateOrder", parameters);
         }
@@ -117,6 +125,7 @@ namespace CartMaster.Data.Repositories
                                 TotalAmount = (decimal)sqlDataReader["TotalAmount"],
                                 DiscountAmount = sqlDataReader["DiscountAmount"] != DBNull.Value ? (decimal)sqlDataReader["DiscountAmount"] : default,
                                 FinalAmount = sqlDataReader["FinalAmount"] != DBNull.Value ? (decimal)sqlDataReader["FinalAmount"] : default,
+                                CouponID = sqlDataReader["CouponID"] != DBNull.Value ? (int)sqlDataReader["CouponID"] : default,
                                 OrderItems = new List<OrderItemModel>()
                             };
                         }
@@ -132,7 +141,7 @@ namespace CartMaster.Data.Repositories
                                     Price = (decimal)sqlDataReader["Price"],
                                     ProductName = sqlDataReader["ProductName"].ToString(),
                                     ProductDescription = sqlDataReader["ProductDescription"].ToString(),
-                                    ImageURL = sqlDataReader["ImageURL"].ToString(),
+                                    ImageURL = $"https://{_httpContextAccessor.HttpContext.Request.Host}/images/ProductImages/{sqlDataReader["ImageURL"].ToString()}",
                                     ReturnStatus = sqlDataReader["ReturnStatus"] != DBNull.Value ? sqlDataReader["ReturnStatus"].ToString() : default,
                                     ReturnRequested = sqlDataReader["ReturnRequested"] != DBNull.Value ? (bool)sqlDataReader["ReturnRequested"] : default
                                 });
@@ -175,6 +184,7 @@ namespace CartMaster.Data.Repositories
                                     TotalAmount = sqlDataReader["TotalAmount"] != DBNull.Value ? (decimal)sqlDataReader["TotalAmount"] : default,
                                     DiscountAmount = sqlDataReader["DiscountAmount"] != DBNull.Value ? (decimal)sqlDataReader["DiscountAmount"] : default,
                                     FinalAmount = sqlDataReader["FinalAmount"] != DBNull.Value ? (decimal)sqlDataReader["FinalAmount"] : default,
+                                    CouponID = sqlDataReader["CouponID"] != DBNull.Value ? (int)sqlDataReader["CouponID"] : default,
                                     OrderItems = new List<OrderItemModel>()
                                 };
                                 ordersDict.Add(orderId, order);
@@ -187,7 +197,7 @@ namespace CartMaster.Data.Repositories
                             var price = sqlDataReader["Price"] != DBNull.Value ? (decimal)sqlDataReader["Price"] : default;
                             var productName = sqlDataReader["ProductName"] != DBNull.Value ? sqlDataReader["ProductName"].ToString() : default;
                             var productDescription = sqlDataReader["ProductDescription"] != DBNull.Value ? sqlDataReader["ProductDescription"].ToString() : default;
-                            var imageURL = sqlDataReader["ImageURL"] != DBNull.Value ? sqlDataReader["ImageURL"].ToString() : default;
+                            var imageURL = $"https://{_httpContextAccessor.HttpContext.Request.Host}/images/ProductImages/{sqlDataReader["ImageURL"].ToString()}";
                             var returnStatus = sqlDataReader["ReturnStatus"] != DBNull.Value ? sqlDataReader["ReturnStatus"].ToString() : default;
                             var returnRequested = sqlDataReader["ReturnRequested"] != DBNull.Value ? (bool)sqlDataReader["ReturnRequested"] : default;
 
@@ -212,32 +222,6 @@ namespace CartMaster.Data.Repositories
 
             orders.AddRange(ordersDict.Values);
             return orders;
-        }
-        
-        public async Task<string> ApplyCouponToOrderAsync(int orderId, string couponName, int userId)
-        {
-            using(var connection = _connection)
-            {
-                using(SqlCommand sqlCommand = new SqlCommand("ApplyCouponToOrder", connection))
-                {
-                    sqlCommand.CommandType = CommandType.StoredProcedure;
-
-                    sqlCommand.Parameters.AddWithValue("@OrderID", orderId);
-                    sqlCommand.Parameters.AddWithValue("@CouponName", couponName);
-                    sqlCommand.Parameters.AddWithValue("@UserID", userId);
-
-                    await connection.OpenAsync();
-                    int rowsAffected = await sqlCommand.ExecuteNonQueryAsync();
-                    if(rowsAffected > 0)
-                    {
-                        return "Coupon Applied";
-                    }
-                    else
-                    {
-                        return "Failed To Apply Coupon";
-                    }
-                }
-            }
         }
     }
 }

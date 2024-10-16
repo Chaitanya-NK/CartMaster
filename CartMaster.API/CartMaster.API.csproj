@@ -22,4 +22,8 @@
     <ProjectReference Include="..\CartMaster.Business\CartMaster.Business.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\CategoryImages\" />
+  </ItemGroup>
+
 </Project>

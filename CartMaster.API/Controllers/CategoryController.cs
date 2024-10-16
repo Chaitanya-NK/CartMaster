@@ -21,7 +21,7 @@ namespace CartMaster.API.Controllers
         }
 
         [HttpPost("HandleCategory")]
-        public IActionResult HandleCategory([FromQuery] string action, [FromBody] CategoryModel categoryModel = null, int categoryId = 0)
+        public IActionResult HandleCategory([FromQuery] string action, [FromForm] CategoryModel categoryModel = null, IFormFile imageURL = null, int categoryId = 0)
         {
             try
             {
@@ -37,12 +37,12 @@ namespace CartMaster.API.Controllers
 
                     case "add":
                         if (categoryModel == null) return BadRequest("Category data is required.");
-                        var addedCategory = _categoryService.AddCategory(categoryModel);
+                        var addedCategory = _categoryService.AddCategory(categoryModel, imageURL);
                         return Ok(new { success = true, message = StaticCategory.AddCategorySuccess });
 
                     case "update":
                         if (categoryModel == null) return BadRequest("Category data is required.");
-                        var updatedCategory = _categoryService.UpdateCategory(categoryModel);
+                        var updatedCategory = _categoryService.UpdateCategory(categoryModel, imageURL);
                         return Ok(new { success = true, message = StaticCategory.UpdateCategorySuccess });
 
                     case "delete":

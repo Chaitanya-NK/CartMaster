@@ -1,0 +1,7 @@
+﻿CREATE PROCEDURE CreateCart
+	@UserID INT
+AS
+BEGIN
+	INSERT INTO Cart (UserID)
+	VALUES (@UserID)
+END

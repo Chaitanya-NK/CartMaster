@@ -1,0 +1,7 @@
+﻿CREATE PROCEDURE GetValidCoupons
+AS
+BEGIN
+	SELECT *
+	FROM Coupons
+	WHERE IsValid = 1
+END

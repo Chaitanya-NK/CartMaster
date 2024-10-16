@@ -1,6 +1,7 @@
 ﻿using CartMaster.Business.IServices;
 using CartMaster.Data.IRepositories;
 using CartMaster.Data.Models;
+using CartMaster.Static;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,11 @@ namespace CartMaster.Business.Services
         }
         public string AddProductReview(ProductReviewModel productReviewModel)
         {
+            bool hasPurchased = _productReviewRepository.HasUserPurchasedProduct(productReviewModel.ProductID, productReviewModel.UserID);
+            if(!hasPurchased)
+            {
+                return StaticProduct.ProductNotPurchased;
+            }
             return _productReviewRepository.AddProductReview(productReviewModel);
         }
 
@@ -44,6 +50,11 @@ namespace CartMaster.Business.Services
         public string UpdateProductReview(ProductReviewModel productReviewModel)
         {
             return _productReviewRepository.UpdateProductReview(productReviewModel);
+        }
+
+        public bool HasUserPurchasedProduct(int productId, int userId)
+        {
+            return _productReviewRepository.HasUserPurchasedProduct(productId, userId);
         }
     }
 }

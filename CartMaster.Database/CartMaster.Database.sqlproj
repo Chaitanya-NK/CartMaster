@@ -56,5 +56,92 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="dbo" />
+    <Folder Include="dbo\Tables" />
+    <Folder Include="dbo\Stored Procedures" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\Users.sql" />
+    <Build Include="dbo\Tables\Roles.sql" />
+    <Build Include="dbo\Tables\UserRoles.sql" />
+    <Build Include="dbo\Tables\Categories.sql" />
+    <Build Include="dbo\Tables\Products.sql" />
+    <Build Include="dbo\Tables\Orders.sql" />
+    <Build Include="dbo\Tables\OrderItems.sql" />
+    <Build Include="dbo\Tables\Cart.sql" />
+    <Build Include="dbo\Tables\CartItems.sql" />
+    <Build Include="dbo\Tables\ProductReviews.sql" />
+    <Build Include="dbo\Tables\MenuItems.sql" />
+    <Build Include="dbo\Tables\RoleMenuMapping.sql" />
+    <Build Include="dbo\Tables\Wishlist.sql" />
+    <Build Include="dbo\Tables\UserOTP.sql" />
+    <Build Include="dbo\Tables\Coupons.sql" />
+    <Build Include="dbo\Tables\PasswordResetTokens.sql" />
+    <Build Include="dbo\Tables\UserSessions.sql" />
+    <Build Include="dbo\Tables\UserSessionTracking.sql" />
+    <Build Include="dbo\Tables\PaymentDetails.sql" />
+    <Build Include="dbo\Stored Procedures\Register.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateUser.sql" />
+    <Build Include="dbo\Stored Procedures\SaveUserAddress.sql" />
+    <Build Include="dbo\Stored Procedures\GetUserAddressByUserId.sql" />
+    <Build Include="dbo\Stored Procedures\GetAllUsers.sql" />
+    <Build Include="dbo\Stored Procedures\GetUserById.sql" />
+    <Build Include="dbo\Stored Procedures\Login.sql" />
+    <Build Include="dbo\Stored Procedures\TokenDetails.sql" />
+    <Build Include="dbo\Stored Procedures\GetUserByEmail.sql" />
+    <Build Include="dbo\Stored Procedures\GetUserIdByEmail.sql" />
+    <Build Include="dbo\Stored Procedures\CheckUserPurchase.sql" />
+    <Build Include="dbo\Stored Procedures\InsertResetToken.sql" />
+    <Build Include="dbo\Stored Procedures\ValidatePasswordResetToken.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateUserPassword.sql" />
+    <Build Include="dbo\Stored Procedures\SaveUserOTP.sql" />
+    <Build Include="dbo\Stored Procedures\VerifyUserOTP.sql" />
+    <Build Include="dbo\Stored Procedures\AddCategory.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateCategory.sql" />
+    <Build Include="dbo\Stored Procedures\DeleteCategory.sql" />
+    <Build Include="dbo\Stored Procedures\GetAllCategories.sql" />
+    <Build Include="dbo\Stored Procedures\GetCategoryById.sql" />
+    <Build Include="dbo\Stored Procedures\AddProduct.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateProduct.sql" />
+    <Build Include="dbo\Stored Procedures\DeleteProduct.sql" />
+    <Build Include="dbo\Stored Procedures\GetAllProducts.sql" />
+    <Build Include="dbo\Stored Procedures\GetProductById.sql" />
+    <Build Include="dbo\Stored Procedures\GetProductsByCategoryId.sql" />
+    <Build Include="dbo\Stored Procedures\CreateOrder.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateOrderStatus.sql" />
+    <Build Include="dbo\Stored Procedures\ViewUserOrders.sql" />
+    <Build Include="dbo\Stored Procedures\GetOrderDetailsByOrderId.sql" />
+    <Build Include="dbo\Stored Procedures\CancelOrderByOrderId.sql" />
+    <Build Include="dbo\Stored Procedures\RequestReturnByOrderItemId.sql" />
+    <Build Include="dbo\Stored Procedures\ProcessReturnByOrderItemId.sql" />
+    <Build Include="dbo\Stored Procedures\CreateCart.sql" />
+    <Build Include="dbo\Stored Procedures\AddProductToCart.sql" />
+    <Build Include="dbo\Stored Procedures\RemoveProductFromCart.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateCartItemQuantity.sql" />
+    <Build Include="dbo\Stored Procedures\GetCartByUserId.sql" />
+    <Build Include="dbo\Stored Procedures\GetCartItemCountByCartId.sql" />
+    <Build Include="dbo\Stored Procedures\AddProductReview.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateProductReview.sql" />
+    <Build Include="dbo\Stored Procedures\DeleteProductReview.sql" />
+    <Build Include="dbo\Stored Procedures\GetProductReviews.sql" />
+    <Build Include="dbo\Stored Procedures\GetAverageRatingByProductId.sql" />
+    <Build Include="dbo\Stored Procedures\GetAverageRatingOfAllProducts.sql" />
+    <Build Include="dbo\Stored Procedures\AddRoleMenuMapping.sql" />
+    <Build Include="dbo\Stored Procedures\GetMenuItemsByRoleId.sql" />
+    <Build Include="dbo\Stored Procedures\AddToWishlist.sql" />
+    <Build Include="dbo\Stored Procedures\GetWishlistByUser.sql" />
+    <Build Include="dbo\Stored Procedures\RemoveFromWishlist.sql" />
+    <Build Include="dbo\Stored Procedures\CreateCoupon.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateCoupon.sql" />
+    <Build Include="dbo\Stored Procedures\GetAllCoupons.sql" />
+    <Build Include="dbo\Stored Procedures\GetValidCoupons.sql" />
+    <Build Include="dbo\Stored Procedures\CreateUserSession.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateUserSession.sql" />
+    <Build Include="dbo\Stored Procedures\InsertPaymentDetails.sql" />
+    <Build Include="dbo\Stored Procedures\GetPaymentDetailsByOrderId.sql" />
+    <Build Include="dbo\Stored Procedures\GetDashboardData.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="CartMaster.Database.refactorlog" />
   </ItemGroup>
 </Project>

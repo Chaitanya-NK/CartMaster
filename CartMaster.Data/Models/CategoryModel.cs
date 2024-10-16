@@ -10,6 +10,7 @@ namespace CartMaster.Data.Models
     {
         public int CategoryID { get; set; }
         public string? CategoryName { get; set; }
+        public string? ImageURL { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
     }

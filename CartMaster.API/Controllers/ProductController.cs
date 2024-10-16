@@ -21,7 +21,7 @@ namespace CartMaster.API.Controllers
         }
 
         [HttpPost("HandleProduct")]
-        public IActionResult HandleProduct([FromQuery] string action, [FromBody] ProductModel productModel = null, int productId = 0, int categoryId = 0)
+        public IActionResult HandleProduct([FromQuery] string action, [FromForm] ProductModel productModel = null, IFormFile imageURL = null , int productId = 0, int categoryId = 0)
         {
             try
             {
@@ -41,12 +41,12 @@ namespace CartMaster.API.Controllers
 
                     case "add":
                         if (productModel == null) return BadRequest("Product data is required.");
-                        var addedProduct = _productService.AddProduct(productModel);
+                        var addedProduct = _productService.AddProduct(productModel, imageURL);
                         return Ok(new { success = true, message = StaticProduct.AddProductSuccess });
 
                     case "update":
                         if (productModel == null) return BadRequest("Product data is required.");
-                        var updatedProduct = _productService.UpdateProduct(productModel);
+                        var updatedProduct = _productService.UpdateProduct(productModel, imageURL);
                         return Ok(new { success = true, message = StaticProduct.UpdateProductSuccess });
 
                     case "delete":

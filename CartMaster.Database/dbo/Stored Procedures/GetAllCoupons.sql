@@ -1,0 +1,6 @@
+﻿CREATE PROCEDURE GetAllCoupons
+AS
+BEGIN
+	SELECT *
+	FROM Coupons
+END

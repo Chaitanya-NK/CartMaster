@@ -1,0 +1,8 @@
+﻿CREATE TABLE Categories (
+    CategoryID INT IDENTITY(1,1) PRIMARY KEY,
+    CategoryName NVARCHAR(50) UNIQUE NOT NULL,
+	CreatedAt DATETIME,
+	ModifiedAt DATETIME,
+	ImageURL NVARCHAR(MAX)
+);
+

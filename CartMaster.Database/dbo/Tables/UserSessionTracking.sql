@@ -1,0 +1,8 @@
+﻿CREATE TABLE UserSessionTracking (
+    UserSessionTrackingID INT PRIMARY KEY IDENTITY(1,1),
+    UserID INT NOT NULL,
+    SessionID NVARCHAR(255) NOT NULL,
+    IpAddress NVARCHAR(50) NOT NULL,
+    ChangeDate DATETIME NOT NULL DEFAULT GETDATE(),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
